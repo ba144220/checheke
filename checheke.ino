@@ -1,20 +1,10 @@
-#define ENB 3
-#define IN4 4
-#define IN3 5
-#define ENA 6 
-#define IN1 7
-#define IN2 8
-#define IR1 A1
-#define IR2 A2
-#define IR3 A3
-#define IR4 A4
-#define IR5 A5
 
-const int TRACKING = 0;
-const int ON_BLOCK = 1;
-const int TURN = 2;
 
-int state = TRACKING;
+#include "Basic/ir.h"
+#include "Basic/motor.h"
+#include "Basic/defines.h"
+#include "Basic/constants.h"
+
 
 
 int lastDetected = 2;
@@ -107,67 +97,8 @@ void detectOnblock(){
 
 }
 
-void readIR(){
-  int ir[5];
-
-  ir[0] = analogRead(IR1);
-  ir[1] = analogRead(IR2);
-  ir[2] = analogRead(IR3);
-  ir[3] = analogRead(IR4);
-  ir[4] = analogRead(IR5);
-
-  Serial.print(" IR1:");
-  Serial.print(ir[0]);  
-  Serial.print(" IR2:");
-  Serial.print(ir[1]); 
-  Serial.print(" IR3:");
-  Serial.print(ir[2]);  
-  Serial.print(" IR4:");
-  Serial.print(ir[3]);  
-  Serial.print(" IR5:");
-  Serial.print(ir[4]);  
-
-  Serial.println();
 
 
-}
-
-
-void MotorWriting(double vL, double vR){
-
-    if(vR > 255){
-        vR = 255;
-    }else if(vR < -255){
-        vR = -255;
-    }
-
-    if(vL > 255){
-        vL = 255;
-    }else if(vL < -255){
-        vL = -255;
-    }
-
-    if(vR >= 0){
-        digitalWrite(IN1, LOW);
-        digitalWrite(IN2, HIGH);
-    }
-    else if(vR < 0){
-        digitalWrite(IN1, HIGH);
-        digitalWrite(IN2, LOW);
-        vR = -vR;
-    }
-    if(vL >= 0){
-        digitalWrite(IN3, LOW);
-        digitalWrite(IN4, HIGH);
-    }
-    else if(vL < 0){
-        digitalWrite(IN3, HIGH);
-        digitalWrite(IN4, LOW);
-        vL = -vL;
-    }
-    analogWrite(ENA, vR);
-    analogWrite(ENB, vL);
-}
 
 void tracking(){
   int ir[5];
