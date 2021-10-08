@@ -9,3 +9,4 @@
 #define IR3 A3
 #define IR4 A4
 #define IR5 A5
+#define threshold 700
