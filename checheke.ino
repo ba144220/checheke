@@ -33,7 +33,6 @@ void setup() {
     pinMode(IR4, INPUT);
     pinMode(IR5, INPUT);
 
-
     
 }
 

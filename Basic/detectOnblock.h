@@ -1,7 +1,6 @@
 #include "defines.h"
 
 
-
 bool detectOnblock(){
     int ir[5];
 
