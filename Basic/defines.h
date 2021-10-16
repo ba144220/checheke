@@ -10,3 +10,10 @@
 #define IR4 A4
 #define IR5 A5
 #define threshold 700
+
+#define FORWARD 0
+#define LEFT 1
+#define RIGHT 2
+#define UTURN 3
+#define STOP 4
+

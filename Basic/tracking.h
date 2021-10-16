@@ -1,5 +1,6 @@
 #include "defines.h"
 
+
 void tracking(int irRes){
     static int lastDetected = 2 ;
 
@@ -7,8 +8,6 @@ void tracking(int irRes){
         lastDetected = irRes;
     }
     
- 
-
 
   if(lastDetected==0){
     MotorWriting( 0 , 150 );
@@ -21,7 +20,5 @@ void tracking(int irRes){
   }else if(lastDetected==4){
    MotorWriting( 150 , 0 );
   }
-
-  return false;
   
 }
