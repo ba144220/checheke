@@ -1,0 +1,12 @@
+#define ENB 3
+#define IN4 4
+#define IN3 5
+#define ENA 6 
+#define IN1 7
+#define IN2 8
+#define IR1 A1
+#define IR2 A2
+#define IR3 A3
+#define IR4 A4
+#define IR5 A5
+#define threshold 700
