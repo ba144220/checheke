@@ -10,3 +10,5 @@
 #define IR4 A4
 #define IR5 A5
 #define threshold 700
+#define RST_PIN  9
+#define SS_PIN   10
