@@ -12,5 +12,5 @@
 #define threshold 700
 #define RST_PIN  9
 #define SS_PIN   10
-#define RX 0
+#define RX 2
 #define TX 1
