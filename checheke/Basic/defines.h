@@ -11,6 +11,11 @@
 #define IR5 A5
 #define threshold 700
 
+#define RST_PIN  9
+#define SS_PIN   10
+#define RX 2
+#define TX 1
+
 #define FORWARD 0
 #define LEFT 1
 #define RIGHT 2
