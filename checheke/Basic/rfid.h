@@ -41,3 +41,12 @@ void send_byte(byte *id, byte& idSize){
     }
     Serial.println();
 }
+
+
+void send_msg(const char& msg){
+    // TODO:
+    Serial.print("send : ");
+    Serial.print(msg);
+    Serial.print('\n');
+    BT.write(msg);
+}

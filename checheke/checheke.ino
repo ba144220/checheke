@@ -22,6 +22,7 @@ const int TRACKING = 0;
 const int ON_BLOCK = 1;
 const int TURN = 2;
 const int END = 3;
+//const int SCANNING = 4;
 
 int state = TRACKING;
 
@@ -58,12 +59,30 @@ void loop() {
  
   if(state==TRACKING){
     for(int i=0; i<5; i++){
+
+      if(commands[command_pos]==UTURN){
+          byte idsize = 0;
+          byte* id = rfid(idsize);
+          if(idsize != 0){
+              send_msg(idsize);
+              send_byte(id, idsize);
+          }
+      }
+
       int irRes = readIR();
       if(irRes%100 > 3){
         state = ON_BLOCK;
       }
       tracking(irRes/100);
       delay(5);
+    }
+    if(commands[command_pos]==UTURN){
+      byte idsize = 0;
+      byte* id = rfid(idsize);
+      if(idsize != 0){
+          send_msg(idsize);
+          send_byte(id, idsize);
+      }
     }
     MotorWriting(0,0);
     delay(15);    
@@ -170,6 +189,9 @@ void loop() {
     MotorWriting(0,0);
   }
 }
+
+
+
 
 
 
