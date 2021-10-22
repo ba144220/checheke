@@ -1,6 +1,6 @@
-#include<SoftwareSerial.h>
 #include <SPI.h>
 #include <MFRC522.h>
+#include<SoftwareSerial.h>
 
 byte* rfid(byte& idSize) {
     // 確認是否有新卡片

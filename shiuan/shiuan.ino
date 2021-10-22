@@ -1,10 +1,16 @@
 #include "Basic/ir.h"
 #include "Basic/motor.h"
 #include "Basic/defines.h"
-
 #include "Basic/tracking.h"
 #include "Basic/detectOnblock.h"
-#include "Basis/rfid.h"
+
+#include<SoftwareSerial.h>
+#include <MFRC522.h>
+
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+SoftwareSerial BT(TX,RX); // (tx, rx)
+
+#include "Basic/rfid.h"
 
 const int TRACKING = 0;
 const int ON_BLOCK = 1;
@@ -12,8 +18,6 @@ const int TURN = 2;
 
 int state = TRACKING;
 
-MFRC522 mfrc522(SS_PIN, RST_PIN);
-SoftwareSerial BT(TX,RX); // (tx, rx)
 
 void setup() {
     Serial.begin(9600);
