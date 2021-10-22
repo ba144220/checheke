@@ -8,13 +8,20 @@
 #include "Basic/turn.h"
 #include "Basic/detectOnblock.h"
 
+#include <SoftwareSerial.h>
+#include <MFRC522.h>
+
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+SoftwareSerial BT(TX,RX); // (tx, rx)
+
+
+#include "Basic/rfid.h"
+
 
 const int TRACKING = 0;
 const int ON_BLOCK = 1;
 const int TURN = 2;
 const int END = 3;
-
-
 
 int state = TRACKING;
 
@@ -27,18 +34,22 @@ int command_pos = 0;
 
 void setup() {
   Serial.begin(9600);
-  
-    pinMode(ENB, OUTPUT); 
-    pinMode(IN4, OUTPUT);
-    pinMode(IN3, OUTPUT);
-    pinMode(ENA, OUTPUT);
-    pinMode(IN1, OUTPUT);
-    pinMode(IN2, OUTPUT);
-    pinMode(IR1, INPUT);
-    pinMode(IR2, INPUT);
-    pinMode(IR3, INPUT);
-    pinMode(IR4, INPUT);
-    pinMode(IR5, INPUT);
+
+  BT.begin(9600);
+  SPI.begin();
+  mfrc522.PCD_Init();
+
+  pinMode(ENB, OUTPUT); 
+  pinMode(IN4, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IR1, INPUT);
+  pinMode(IR2, INPUT);
+  pinMode(IR3, INPUT);
+  pinMode(IR4, INPUT);
+  pinMode(IR5, INPUT);
 
     
 }
