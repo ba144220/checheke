@@ -22,12 +22,14 @@ const int TRACKING = 0;
 const int ON_BLOCK = 1;
 const int TURN = 2;
 const int END = 3;
+const int IDLE = 4;
 //const int SCANNING = 4;
 
-int state = TRACKING;
+int state = IDLE;
 
 //const int commands[15] = {FORWARD,UTURN, RIGHT,FORWARD, RIGHT,RIGHT,UTURN,LEFT,RIGHT,RIGHT,UTURN,FORWARD,LEFT,FORWARD,STOP};
-const int commands[8] = {FORWARD,FORWARD,FORWARD,LEFT,RIGHT,LEFT,LEFT,STOP};
+const int commands[20] = { FORWARD,FORWARD,FORWARD,LEFT,RIGHT,LEFT,RIGHT,UTURN,FORWARD,UTURN, FORWARD, UTURN, LEFT,RIGHT, LEFT, RIGHT, FORWARD, FORWARD,FORWARD,STOP};
+//const int commands[10] = { RIGHT,UTURN,FORWARD,STOP};
 
 int command_pos = 0;
 
@@ -56,38 +58,40 @@ void setup() {
 }
 
 void loop() {
- 
-  if(state==TRACKING){
+if(state==TRACKING){
     for(int i=0; i<5; i++){
 
-      if(commands[command_pos]==UTURN){
+
+      int irRes = readIR();
+      if(irRes%100 > 3){
+        state = ON_BLOCK;
+        if(commands[command_pos]==UTURN){
+          MotorWriting(0,0);
           byte idsize = 0;
           byte* id = rfid(idsize);
           if(idsize != 0){
               send_msg(idsize);
               send_byte(id, idsize);
           }
-      }
-
-      int irRes = readIR();
-      if(irRes%100 > 3){
-        state = ON_BLOCK;
+        }
       }
       tracking(irRes/100);
       delay(5);
     }
-    if(commands[command_pos]==UTURN){
-      byte idsize = 0;
-      byte* id = rfid(idsize);
-      if(idsize != 0){
-          send_msg(idsize);
-          send_byte(id, idsize);
-      }
-    }
+
     MotorWriting(0,0);
     delay(15);    
+    // if(commands[command_pos]==UTURN){
+    //   byte idsize = 0;
+    //   byte* id = rfid(idsize);
+    //   if(idsize != 0){
+    //       send_msg(idsize);
+    //       send_byte(id, idsize);
+    //   }
+    // }
 
   }else if(state==ON_BLOCK){
+
 
     MotorWriting(150,150);
     delay(20);
@@ -95,12 +99,6 @@ void loop() {
     delay(15);
     int irRes = readIR();
     if(irRes%100<3){
-      // for(int i=0; i<3; i++){
-      //   MotorWriting(150,150);
-      //   delay(20);
-      //   MotorWriting(0,0);
-      //   delay(15);
-      // }
       MotorWriting(0,0);
       delay(500);
       state = TURN;
@@ -111,7 +109,7 @@ void loop() {
       delay(500);
       int irRes = readIR();
       if(irRes%100==0){
-        for(int i=0; i<20; i+=2){
+        for(int i=8; i<20; i+=5){
           for(int j=0; j<i; j++){
             int irRes = readIR();
             if(irRes%100>0){
@@ -152,7 +150,7 @@ void loop() {
       }else if(commands[command_pos]==RIGHT){
         MotorWriting( 255, 0 );
       }else if(commands[command_pos]==UTURN){
-        MotorWriting( 0, 255 );
+        MotorWriting( -160, 230 );
       }
       
       delay(40);
@@ -169,7 +167,7 @@ void loop() {
       }else if(commands[command_pos]==RIGHT){
         MotorWriting( 180, -150 );
       }else if(commands[command_pos]==UTURN){
-        MotorWriting( -150, 180 );
+        MotorWriting( -180, 150 );
       }
       delay(30);
       MotorWriting(0,0);
@@ -187,6 +185,10 @@ void loop() {
     }
   }else if(state==END){
     MotorWriting(0,0);
+  }else if(state==IDLE){
+    MotorWriting(0,0);
+    delay(5000);
+    state = TRACKING;
   }
 }
 

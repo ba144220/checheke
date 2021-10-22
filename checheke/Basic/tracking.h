@@ -14,7 +14,7 @@ void tracking(int irRes){
   }else if(lastDetected==1){
     MotorWriting(130 , 160 );
   }else if(lastDetected==2){
-    MotorWriting( 150 , 150  );
+    MotorWriting( 145 , 165  );
   }else if(lastDetected==3){
     MotorWriting( 160 , 130 );
   }else if(lastDetected==4){
