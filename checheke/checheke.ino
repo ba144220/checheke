@@ -28,9 +28,9 @@ const int IDLE = 4;
 int state = IDLE;
 
 //const int commands[15] = {FORWARD,UTURN, RIGHT,FORWARD, RIGHT,RIGHT,UTURN,LEFT,RIGHT,RIGHT,UTURN,FORWARD,LEFT,FORWARD,STOP};
-const int commands[20] = { FORWARD,FORWARD,FORWARD,LEFT,RIGHT,LEFT,RIGHT,UTURN,FORWARD,UTURN, FORWARD, UTURN, LEFT,RIGHT, LEFT, RIGHT, FORWARD, FORWARD,FORWARD,STOP};
+//const int commands[20] = { FORWARD,FORWARD,FORWARD,LEFT,RIGHT,LEFT,RIGHT,UTURN,FORWARD,UTURN, FORWARD, UTURN, LEFT,RIGHT, LEFT, RIGHT, FORWARD, FORWARD,FORWARD,STOP};
 //const int commands[10] = { RIGHT,UTURN,FORWARD,STOP};
-
+const int commands[50] = {LEFT, LEFT, RIGHT, UTURN, LEFT, LEFT, RIGHT, RIGHT,UTURN,RIGHT,FORWARD,FORWARD,FORWARD,UTURN,RIGHT,RIGHT,LEFT,LEFT,RIGHT,RIGHT,UTURN,FORWARD,FORWARD,UTURN,RIGHT,FORWARD,LEFT,FORWARD,UTURN,RIGHT,UTURN,RIGHT,FORWARD,FORWARD,FORWARD,LEFT,UTURN,FORWARD,RIGHT,RIGHT,STOP};
 int command_pos = 0;
 
 
@@ -61,19 +61,17 @@ void loop() {
 if(state==TRACKING){
     for(int i=0; i<5; i++){
 
-
+      if(commands[command_pos]==UTURN){
+        byte idsize = 0;
+        byte* id = rfid(idsize);
+        if(idsize != 0){
+            send_msg(idsize);
+            send_byte(id, idsize);
+        }
+      }
       int irRes = readIR();
       if(irRes%100 > 3){
         state = ON_BLOCK;
-        if(commands[command_pos]==UTURN){
-          MotorWriting(0,0);
-          byte idsize = 0;
-          byte* id = rfid(idsize);
-          if(idsize != 0){
-              send_msg(idsize);
-              send_byte(id, idsize);
-          }
-        }
       }
       tracking(irRes/100);
       delay(5);
@@ -106,7 +104,7 @@ if(state==TRACKING){
   }else if(state==TURN){
     if(commands[command_pos]==FORWARD){
       MotorWriting(0,0);
-      delay(500);
+      delay(300);
       int irRes = readIR();
       if(irRes%100==0){
         for(int i=8; i<20; i+=5){
@@ -159,7 +157,7 @@ if(state==TRACKING){
 
     }
     MotorWriting(0,0);
-    delay(800);
+    delay(300);
     while(true){
       int irRes = readIR();
        if(commands[command_pos]==LEFT){
@@ -175,7 +173,7 @@ if(state==TRACKING){
 
       if(irRes/100>=1 && irRes/100<=3){
         MotorWriting(0,0);
-        delay(800);
+        delay(300);
         break;
       }
     }
